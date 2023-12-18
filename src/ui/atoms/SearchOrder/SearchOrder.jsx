@@ -1,4 +1,9 @@
+// falta lógica asociada
 const SearchOrder = () => {
+  function handleSubmit(e) {
+    //
+  }
+
   return (
     <form>
       <input
