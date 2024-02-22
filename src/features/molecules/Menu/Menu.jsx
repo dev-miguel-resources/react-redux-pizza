@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router-dom' // lazy loading
 import MenuItem from '../../../ui/atoms/MenuItem/MenuItem'
 import { getMenu } from '../../../shared/services/apiRestaurant'
 

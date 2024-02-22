@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 import AppLayout from './ui/atoms/AppLayout/AppLayout'
 import Error from './ui/atoms/Error/Error'
-import Menu from './features/molecules/Menu/Menu'
+import Menu, { loader as menuLoader } from './features/molecules/Menu/Menu'
 import Cart from './features/molecules/Cart/Cart'
 import CreateOrder from './features/molecules/Order/CreateOrder'
 import Order from './features/molecules/Order/Order'
@@ -13,7 +13,7 @@ Routes / Route / element -> 6.x */
 export const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    errorElement: <Error />,
+    //errorElement: <Error />,
 
     children: [
       {
@@ -23,6 +23,8 @@ export const router = createBrowserRouter([
       {
         path: '/menu',
         element: <Menu />,
+        loader: menuLoader,
+        errorElement: <Error />,
       },
       {
         path: '/cart',
@@ -34,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/order/:orderId',
-        element: <Order />,
+        element: <Order />
       },
     ],
   },
