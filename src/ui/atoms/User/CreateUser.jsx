@@ -5,13 +5,13 @@ const CreateUser = () => {
   const [username, setUsername] = useState('')
 
   function handleSubmit() {
-    e.preventDefault();
+    e.preventDefault()
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <p className="mb-4 text-sm text-stone-600 md:text-base">
-        Welcome! Please start by telling us your name:
+        👋 Welcome! Please start by telling us your name:
       </p>
 
       <input
