@@ -18,7 +18,21 @@ const userSlice = createSlice({
       state.username = action.payload
     },
   },
-  // pendiente: extraReducers, addCase, builders
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchAddress.pending, (state, _action) => {
+        state.address = 'loading'
+      })
+      .addCase(fetchAddress.fulfilled, (state, action) => {
+        state.position = action.payload.position
+        state.address = action.payload.address
+        state.status = 'idle'
+      })
+      .addCase(fetchAddress.rejected, (state, _action) => {
+        state.status = 'error'
+        state.error =
+          'There was a problem getting your address. Make sure to fill this field!'
+      }),
 })
 
 export const { updateName } = userSlice.actions
@@ -32,7 +46,7 @@ function getPosition() {
   })
 }
 
-// actions asyncs with redux thunk
+// actions async with redux thunk
 export const fetchAddress = createAsyncThunk(
   'user/fetchAddress',
   async function () {
