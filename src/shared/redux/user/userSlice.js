@@ -59,7 +59,7 @@ export const fetchAddress = createAsyncThunk(
 
     // 2) Then we use geocoding API to get a description of the user's address and others data
     const addressObj = await getAddress(position)
-    const address = `${addressObj?.locality}, ${addressObj?.city}, ${addressObj?.postCode}, ${addressObj?.countryName}`
+    const address = `${addressObj?.locality}, ${addressObj?.city}, ${addressObj?.countryName}`
 
     // 3) Then we return an object with data that we are interested in.
     // PAYLOAD of the FULFILLED state

@@ -1,11 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { clearCart, getCart } from '../../../shared/redux/cart/cartSlice'
 import EmptyCart from '../../../ui/atoms/EmptyCart/EmptyCart'
 import LinkButton from '../../../ui/atoms/LinkButton/LinkButton'
 import Button from '../../../ui/atoms/Button/Button'
 import CartItem from '../../../ui/atoms/CartItem/CartItem'
-
-// POR COMPLETAR
+import { clearCart, getCart } from '../../../shared/redux/cart/cartSlice'
 
 /*const fakeCart = [
   {
@@ -56,7 +54,9 @@ const Cart = () => {
           Order pizzas
         </Button>
 
-        <Button type="secondary">Clear cart</Button>
+        <Button type="secondary" onClick={() => dispatch(clearCart())}>
+          Clear cart
+        </Button>
       </div>
     </div>
   )
