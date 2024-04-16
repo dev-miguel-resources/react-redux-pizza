@@ -6,7 +6,10 @@ import Error from './ui/atoms/Error/Error'
 import Menu, { loader as menuLoader } from './features/molecules/Menu/Menu'
 import Order, { loader as orderLoader } from './features/molecules/Order/Order'
 import Cart from './features/molecules/Cart/Cart'
-import CreateOrder from './features/molecules/Order/CreateOrder'
+import CreateOrder, {
+  action as createOrderAction,
+} from './features/molecules/Order/CreateOrder'
+import { action as updateOrderAction } from './ui/atoms/UpdateOrder/UpdateOrder'
 import Home from './features/molecules/Home/Home'
 
 /*Routes + state remote -> rutas padres/hijas, actions, error, loading
@@ -35,12 +38,14 @@ export const router = createBrowserRouter([
       {
         path: '/order/new',
         element: <CreateOrder />,
+        action: createOrderAction,
       },
       {
         path: '/order/:orderId',
         element: <Order />,
         loader: orderLoader,
         errorElement: <Error />,
+        action: updateOrderAction,
       },
     ],
   },

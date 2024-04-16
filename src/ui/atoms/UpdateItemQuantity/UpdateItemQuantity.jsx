@@ -5,7 +5,7 @@ import {
   increaseItemQuantity,
 } from '../../../shared/redux/cart/cartSlice'
 
-const UpdateItemQuantity = ({ pizzaId, currentQuantity }) => {
+function UpdateItemQuantity({ pizzaId, currentQuantity }) {
   const dispatch = useDispatch()
 
   return (

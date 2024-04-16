@@ -19,7 +19,7 @@ const isValidPhone = (str) =>
     str,
   )
 
-const CreateOrder = () => {
+function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false)
   const {
     username,
@@ -28,14 +28,16 @@ const CreateOrder = () => {
     address,
     error: errorAddress,
   } = useSelector((state) => state.user)
+  const isLoadingAddress = addressStatus === 'loading'
+
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === 'submitting'
+
+  const formErrors = useActionData()
+  const dispatch = useDispatch()
+
   const cart = useSelector(getCart)
   const totalCartPrice = useSelector(getTotalCartPrice)
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const isLoadingAddress = addressStatus === 'loading'
-  const isSubmitting = navigation.state === 'submitting'
-  const formErrors = useActionData()
-
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0 // 20% más al carrito
   const totalPrice = totalCartPrice + priorityPrice
 
@@ -45,6 +47,7 @@ const CreateOrder = () => {
     <div className="px-4 py-6">
       <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
 
+      {/* <Form method="POST" action="/order/new"> */}
       <Form method="POST">
         <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center">
           <label className="sm:basis-40">First Name</label>
@@ -61,10 +64,10 @@ const CreateOrder = () => {
           <label className="sm:basis-40">Phone number</label>
           <div className="grow">
             <input className="input w-full" type="tel" name="phone" required />
-            {formErrors?.phone(
+            {formErrors?.phone && (
               <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
                 {formErrors.phone}
-              </p>,
+              </p>
             )}
           </div>
         </div>
@@ -97,7 +100,7 @@ const CreateOrder = () => {
                   dispatch(fetchAddress())
                 }}
               >
-                Get Position
+                Get position
               </Button>
             </span>
           )}
@@ -124,16 +127,14 @@ const CreateOrder = () => {
             name="position"
             value={
               position.longitude && position.latitude
-                ? `${position.longitude},${position.latitude}`
+                ? `${position.latitude},${position.longitude}`
                 : ''
             }
           />
-        </div>
 
-        <div>
           <Button disabled={isSubmitting || isLoadingAddress} type="primary">
             {isSubmitting
-              ? 'Placing order...'
+              ? 'Placing order....'
               : `Order now from ${formatCurrency(totalPrice)}`}
           </Button>
         </div>
@@ -144,13 +145,15 @@ const CreateOrder = () => {
 
 export async function action({ request }) {
   const formData = await request.formData()
-  const data = Object.entries(formData)
+  const data = Object.fromEntries(formData)
 
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
-    priority: data.priority == 'true',
+    priority: data.priority === 'true',
   }
+
+  console.log(order)
 
   const errors = {}
   if (!isValidPhone(order.phone))
@@ -159,10 +162,9 @@ export async function action({ request }) {
 
   if (Object.keys(errors).length > 0) return errors
 
-  // IF everything is okay, create new order and redirect
+  // If everything is okay, create new order and redirect
   const newOrder = await createOrder(order)
 
-  //dispatch(clearCart())
   store.dispatch(clearCart())
 
   return redirect(`/order/${newOrder.id}`)

@@ -1,10 +1,22 @@
-const OrderItem = () => {
+import { formatCurrency } from '../../../shared/utils/helpers'
+
+const OrderItem = ({ item, isLoadingIngredients, ingredients }) => {
+  const { quantity, name, totalPrice } = item
+
   return (
-    <div>
-      Hello am OrderItem!
-    </div>
+    <li className="space-y-1 py-3">
+      <div className="flex items-center justify-between gap-4 text-sm">
+        <p>
+          <span className="font-bold">{quantity}&times;</span> {name}
+        </p>
+        <p className="font-bold">{formatCurrency(totalPrice)}</p>
+      </div>
+
+      <p className="text-sm ">
+        {isLoadingIngredients ? 'Loading...' : ingredients.join(',')}
+      </p>
+    </li>
   )
 }
 
 export default OrderItem
-

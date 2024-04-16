@@ -8,10 +8,11 @@ import {
 } from '../../../shared/redux/cart/cartSlice'
 import { formatCurrency } from '../../../shared/utils/helpers'
 
-const MenuItem = ({ pizza }) => {
+function MenuItem({ pizza }) {
+  const dispatch = useDispatch()
+
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza
 
-  const dispatch = useDispatch()
   const currentQuantity = useSelector(getCurrentQuantityById(id))
   const isInCart = currentQuantity > 0
 
@@ -36,7 +37,7 @@ const MenuItem = ({ pizza }) => {
       <div className="flex grow flex-col pt-0.5">
         <p className="font-medium">{name}</p>
         <p className="text-sm capitalize italic text-stone-500">
-          {ingredients.join(',')}
+          {ingredients.join(', ')}
         </p>
         <div className="mt-auto flex items-center justify-between">
           {!soldOut ? (
